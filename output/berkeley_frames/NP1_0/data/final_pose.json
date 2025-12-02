@@ -1,0 +1,15 @@
+{
+  "pose": {
+    "alpha": -0.747086,
+    "beta": -0.243724,
+    "gamma": 0.287815,
+    "tx": 58.131811,
+    "ty": -109.029183,
+    "tz": 592.704090
+  },
+  "final_mhd_score": 276.358722,
+  "units": {
+    "rotation": "radians",
+    "translation": "pixels_or_mm"
+  }
+}

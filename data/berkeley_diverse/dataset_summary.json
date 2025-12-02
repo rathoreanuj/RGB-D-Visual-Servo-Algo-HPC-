@@ -1,0 +1,128 @@
+{
+  "dataset": "Berkeley RGB-D (004_sugar_box)",
+  "num_frames": 7,
+  "frames": [
+    {
+      "frame_name": "NP1_0",
+      "rgb_image": "NP1_0_rgb.png",
+      "depth_map": "NP1_0_depth.png",
+      "wireframe": "NP1_0_wireframe.obj",
+      "num_vertices": 605,
+      "num_edges": 605,
+      "depth_stats": {
+        "min": 6325,
+        "max": 11614,
+        "mean": 10040.06152570156
+      },
+      "edge_pixels": 5195
+    },
+    {
+      "frame_name": "NP1_90",
+      "rgb_image": "NP1_90_rgb.png",
+      "depth_map": "NP1_90_depth.png",
+      "wireframe": "NP1_90_wireframe.obj",
+      "num_vertices": 615,
+      "num_edges": 615,
+      "depth_stats": {
+        "min": 6155,
+        "max": 11536,
+        "mean": 10154.046037839142
+      },
+      "edge_pixels": 5524
+    },
+    {
+      "frame_name": "NP1_180",
+      "rgb_image": "NP1_180_rgb.png",
+      "depth_map": "NP1_180_depth.png",
+      "wireframe": "NP1_180_wireframe.obj",
+      "num_vertices": 247,
+      "num_edges": 247,
+      "depth_stats": {
+        "min": 6210,
+        "max": 29300,
+        "mean": 10042.421595999847
+      },
+      "edge_pixels": 2267
+    },
+    {
+      "frame_name": "NP1_270",
+      "rgb_image": "NP1_270_rgb.png",
+      "depth_map": "NP1_270_depth.png",
+      "wireframe": "NP1_270_wireframe.obj",
+      "num_vertices": 709,
+      "num_edges": 709,
+      "depth_stats": {
+        "min": 2880,
+        "max": 11498,
+        "mean": 10079.330231055097
+      },
+      "edge_pixels": 6291
+    },
+    {
+      "frame_name": "NP2_0",
+      "rgb_image": "NP2_0_rgb.png",
+      "depth_map": "NP2_0_depth.png",
+      "wireframe": "NP2_0_wireframe.obj",
+      "num_vertices": 1018,
+      "num_edges": 1018,
+      "depth_stats": {
+        "min": 4446,
+        "max": 11536,
+        "mean": 8684.328716201266
+      },
+      "edge_pixels": 8774
+    },
+    {
+      "frame_name": "NP2_90",
+      "rgb_image": "NP2_90_rgb.png",
+      "depth_map": "NP2_90_depth.png",
+      "wireframe": "NP2_90_wireframe.obj",
+      "num_vertices": 859,
+      "num_edges": 859,
+      "depth_stats": {
+        "min": 5706,
+        "max": 11854,
+        "mean": 8689.385869680187
+      },
+      "edge_pixels": 7568
+    },
+    {
+      "frame_name": "NP2_180",
+      "rgb_image": "NP2_180_rgb.png",
+      "depth_map": "NP2_180_depth.png",
+      "wireframe": "NP2_180_wireframe.obj",
+      "num_vertices": 968,
+      "num_edges": 968,
+      "depth_stats": {
+        "min": 5706,
+        "max": 11536,
+        "mean": 8707.225637034711
+      },
+      "edge_pixels": 8642
+    }
+  ],
+  "camera_intrinsics": [
+    [
+      574.06408607,
+      0.0,
+      314.66898338
+    ],
+    [
+      0.0,
+      574.05978096,
+      220.79854667
+    ],
+    [
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "processing_params": {
+    "edge_detection": {
+      "low_threshold": 50,
+      "high_threshold": 150
+    },
+    "subsample": 5
+  }
+}

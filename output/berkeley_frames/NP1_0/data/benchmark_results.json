@@ -1,0 +1,68 @@
+{
+  "NP1_0": {
+    "1": {
+      "times": [
+        3061.4,
+        2898.1,
+        2812.5,
+        2789.4,
+        2703.9
+      ],
+      "avg_time": 2853.06,
+      "std_time": 121.14501392958769,
+      "avg_iterations": 342.0,
+      "avg_initial_mhd": 362.907,
+      "avg_final_mhd": 276.3587,
+      "avg_improvement": 86.54829999999998,
+      "successful_runs": 5
+    },
+    "2": {
+      "times": [
+        1400.4,
+        1391.0,
+        1304.6,
+        1238.6,
+        1245.6
+      ],
+      "avg_time": 1316.04,
+      "std_time": 69.02931551159992,
+      "avg_iterations": 342.0,
+      "avg_initial_mhd": 362.907,
+      "avg_final_mhd": 276.3587,
+      "avg_improvement": 86.54829999999998,
+      "successful_runs": 5
+    },
+    "4": {
+      "times": [
+        847.7,
+        978.1,
+        883.1,
+        890.0,
+        871.0
+      ],
+      "avg_time": 893.9799999999999,
+      "std_time": 44.45291441514268,
+      "avg_iterations": 342.0,
+      "avg_initial_mhd": 362.907,
+      "avg_final_mhd": 276.3587,
+      "avg_improvement": 86.54829999999998,
+      "successful_runs": 5
+    },
+    "8": {
+      "times": [
+        1045.8,
+        1242.4,
+        1052.8,
+        1062.7,
+        1065.0
+      ],
+      "avg_time": 1093.74,
+      "std_time": 74.650642328114,
+      "avg_iterations": 342.0,
+      "avg_initial_mhd": 362.907,
+      "avg_final_mhd": 276.3587,
+      "avg_improvement": 86.54829999999998,
+      "successful_runs": 5
+    }
+  }
+}

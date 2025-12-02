@@ -1,0 +1,39 @@
+{
+  "module_timing": {
+    "data_loading_ms": 36.893,
+    "preprocessing_ms": 14.874,
+    "segmentation_ms": 15.751,
+    "camera_setup_ms": 0.046,
+    "optimization_ms": 1447.34,
+    "logging_ms": 8.989,
+    "total_ms": 1523.93,
+    "total_sec": 1.52393
+  },
+  "algorithm_metrics": {
+    "total_iterations": 342,
+    "initial_mhd_score": 383.63,
+    "final_mhd_score": 352.7,
+    "improvement": 30.9309,
+    "convergence_rate": 0.0806269,
+    "avg_iteration_time_ms": 4.19133,
+    "best_iteration_time_ms": 3.042,
+    "worst_iteration_time_ms": 11.427,
+    "num_target_points": 3859,
+    "num_model_edges": 1018,
+    "total_mhd_computations": 345
+  },
+  "memory_metrics": {
+    "rgb_image_bytes": 921600,
+    "depth_map_bytes": 1228800,
+    "model_bytes": 32576,
+    "target_points_bytes": 61744,
+    "total_estimated_bytes": 2244720,
+    "total_estimated_mb": 2.14073
+  },
+  "throughput_metrics": {
+    "iterations_per_second": 236.296,
+    "points_per_second": 911865,
+    "edges_per_second": 240549,
+    "mhd_computations_per_second": 238.368
+  }
+}
