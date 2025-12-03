@@ -1,13 +1,4 @@
 @echo off
-REM ============================================================================
-REM RGB-D Pose Estimation - Berkeley Dataset Complete Analysis Workflow
-REM ============================================================================
-REM This script runs the complete pipeline for Berkeley RGB-D dataset analysis:
-REM 1. Build the C++ project with OpenMP
-REM 2. Convert Berkeley H5 data to PNG/OBJ format
-REM 3. Run comprehensive benchmarks on all frames
-REM 4. Generate performance analysis plots
-REM ============================================================================
 
 echo.
 echo ============================================================================
@@ -15,7 +6,6 @@ echo   RGB-D Pose Estimation - Berkeley Dataset Analysis
 echo ============================================================================
 echo.
 
-REM Check if Python virtual environment exists
 if not exist ".venv\Scripts\activate.bat" (
     echo [ERROR] Python virtual environment not found!
     echo Please run: python -m venv .venv
@@ -25,7 +15,6 @@ if not exist ".venv\Scripts\activate.bat" (
     exit /b 1
 )
 
-REM Activate Python virtual environment
 echo [1/4] Activating Python virtual environment...
 call .venv\Scripts\activate.bat
 if errorlevel 1 (
@@ -36,7 +25,6 @@ if errorlevel 1 (
 echo [OK] Virtual environment activated
 echo.
 
-REM Step 1: Build the C++ project
 echo ============================================================================
 echo [2/4] Building C++ Project with OpenMP...
 echo ============================================================================
@@ -61,7 +49,6 @@ cd ..
 echo [OK] Build completed successfully
 echo.
 
-REM Step 2: Convert Berkeley dataset
 echo ============================================================================
 echo [3/4] Converting Berkeley RGB-D Dataset (H5 to PNG/OBJ)...
 echo ============================================================================
@@ -76,7 +63,6 @@ if errorlevel 1 (
 echo [OK] Dataset conversion completed
 echo.
 
-REM Step 3: Run comprehensive benchmarks
 echo ============================================================================
 echo [4/4] Running Comprehensive Benchmarks...
 echo ============================================================================
@@ -95,7 +81,6 @@ if errorlevel 1 (
 echo [OK] Benchmarks and plots generated successfully
 echo.
 
-REM Summary
 echo ============================================================================
 echo   ANALYSIS COMPLETE!
 echo ============================================================================

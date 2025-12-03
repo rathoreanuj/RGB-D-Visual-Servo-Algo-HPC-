@@ -4,27 +4,22 @@
 #include <iomanip>
 #include <algorithm>
 #include <numeric>
-
 std::map<std::string, PerformanceMetrics::Timer> PerformanceMetrics::timers_;
 PerformanceMetrics::ModuleTiming PerformanceMetrics::moduleTiming_;
 PerformanceMetrics::AlgorithmMetrics PerformanceMetrics::algorithmMetrics_;
 PerformanceMetrics::MemoryMetrics PerformanceMetrics::memoryMetrics_;
 PerformanceMetrics::ThroughputMetrics PerformanceMetrics::throughputMetrics_;
 std::vector<double> PerformanceMetrics::iterationTimes_;
-
 void PerformanceMetrics::startTimer(const std::string& moduleName) {
     Timer timer;
     timer.start = std::chrono::high_resolution_clock::now();
     timers_[moduleName] = timer;
 }
-
 void PerformanceMetrics::stopTimer(const std::string& moduleName) {
     auto it = timers_.find(moduleName);
     if (it != timers_.end()) {
         it->second.end = std::chrono::high_resolution_clock::now();
         it->second.elapsedMs = getElapsedMs(it->second);
-        
-        // Update module timing
         if (moduleName == "data_loading") {
             moduleTiming_.dataLoadingMs = it->second.elapsedMs;
         } else if (moduleName == "preprocessing") {
@@ -42,11 +37,9 @@ void PerformanceMetrics::stopTimer(const std::string& moduleName) {
         }
     }
 }
-
 void PerformanceMetrics::recordIterationTime(double iterationTimeMs) {
     iterationTimes_.push_back(iterationTimeMs);
 }
-
 void PerformanceMetrics::setAlgorithmMetrics(int iterations, double initialScore, 
                                             double finalScore, int targetPoints, 
                                             int modelEdges, long long mhdComputations) {
@@ -59,8 +52,6 @@ void PerformanceMetrics::setAlgorithmMetrics(int iterations, double initialScore
     algorithmMetrics_.numTargetPoints = targetPoints;
     algorithmMetrics_.numModelEdges = modelEdges;
     algorithmMetrics_.totalMHDComputations = mhdComputations;
-    
-    // Calculate iteration time statistics
     if (!iterationTimes_.empty()) {
         algorithmMetrics_.avgIterationTimeMs = 
             std::accumulate(iterationTimes_.begin(), iterationTimes_.end(), 0.0) / iterationTimes_.size();
@@ -70,7 +61,6 @@ void PerformanceMetrics::setAlgorithmMetrics(int iterations, double initialScore
             *std::max_element(iterationTimes_.begin(), iterationTimes_.end());
     }
 }
-
 void PerformanceMetrics::estimateMemoryUsage(size_t rgbBytes, size_t depthBytes,
                                             size_t modelBytes, size_t targetPointsBytes) {
     memoryMetrics_.rgbImageBytes = rgbBytes;
@@ -79,32 +69,24 @@ void PerformanceMetrics::estimateMemoryUsage(size_t rgbBytes, size_t depthBytes,
     memoryMetrics_.targetPointsBytes = targetPointsBytes;
     memoryMetrics_.totalEstimatedBytes = rgbBytes + depthBytes + modelBytes + targetPointsBytes;
 }
-
 void PerformanceMetrics::calculateThroughput() {
     if (moduleTiming_.optimizationMs > 0) {
         double optimizationTimeSec = moduleTiming_.optimizationMs / 1000.0;
-        
         throughputMetrics_.iterationsPerSecond = 
             algorithmMetrics_.totalIterations / optimizationTimeSec;
-        
         throughputMetrics_.pointsPerSecond = 
             (algorithmMetrics_.numTargetPoints * algorithmMetrics_.totalIterations) / optimizationTimeSec;
-        
         throughputMetrics_.edgesPerSecond = 
             (algorithmMetrics_.numModelEdges * algorithmMetrics_.totalIterations) / optimizationTimeSec;
-        
         throughputMetrics_.mhdComputationsPerSecond = 
             algorithmMetrics_.totalMHDComputations / optimizationTimeSec;
     }
 }
-
 void PerformanceMetrics::printMetrics() {
     std::cout << "\n╔════════════════════════════════════════════════════════════╗" << std::endl;
     std::cout << "║           PERFORMANCE METRICS REPORT                       ║" << std::endl;
     std::cout << "║           (Single-threaded Baseline for HPC)               ║" << std::endl;
     std::cout << "╚════════════════════════════════════════════════════════════╝\n" << std::endl;
-    
-    // Module Timing
     std::cout << "┌─────────────────────────────────────────────────────────┐" << std::endl;
     std::cout << "│ 1. MODULE EXECUTION TIME (milliseconds)                 │" << std::endl;
     std::cout << "├─────────────────────────────────────────────────────────┤" << std::endl;
@@ -127,8 +109,6 @@ void PerformanceMetrics::printMetrics() {
     std::cout << "│                        " << std::setw(10) << (moduleTiming_.totalMs / 1000.0) 
               << " sec          │" << std::endl;
     std::cout << "└─────────────────────────────────────────────────────────┘\n" << std::endl;
-    
-    // Algorithm Metrics
     std::cout << "┌─────────────────────────────────────────────────────────┐" << std::endl;
     std::cout << "│ 2. ALGORITHM PERFORMANCE METRICS                        │" << std::endl;
     std::cout << "├─────────────────────────────────────────────────────────┤" << std::endl;
@@ -150,8 +130,6 @@ void PerformanceMetrics::printMetrics() {
     std::cout << "│ Worst Iteration Time:  " << std::setw(10) << algorithmMetrics_.worstIterationTimeMs 
               << " ms           │" << std::endl;
     std::cout << "└─────────────────────────────────────────────────────────┘\n" << std::endl;
-    
-    // Data Size Metrics
     std::cout << "┌─────────────────────────────────────────────────────────┐" << std::endl;
     std::cout << "│ 3. DATA SIZE METRICS                                    │" << std::endl;
     std::cout << "├─────────────────────────────────────────────────────────┤" << std::endl;
@@ -162,8 +140,6 @@ void PerformanceMetrics::printMetrics() {
     std::cout << "│ Total MHD Calls:       " << std::setw(10) << algorithmMetrics_.totalMHDComputations 
               << "                │" << std::endl;
     std::cout << "└─────────────────────────────────────────────────────────┘\n" << std::endl;
-    
-    // Memory Usage
     std::cout << "┌─────────────────────────────────────────────────────────┐" << std::endl;
     std::cout << "│ 4. MEMORY USAGE ESTIMATE                                │" << std::endl;
     std::cout << "├─────────────────────────────────────────────────────────┤" << std::endl;
@@ -179,8 +155,6 @@ void PerformanceMetrics::printMetrics() {
     std::cout << "│ Total Estimated:       " << std::setw(10) << (memoryMetrics_.totalEstimatedBytes / (1024.0 * 1024.0)) 
               << " MB           │" << std::endl;
     std::cout << "└─────────────────────────────────────────────────────────┘\n" << std::endl;
-    
-    // Throughput
     std::cout << "┌─────────────────────────────────────────────────────────┐" << std::endl;
     std::cout << "│ 5. THROUGHPUT METRICS (items/second)                    │" << std::endl;
     std::cout << "├─────────────────────────────────────────────────────────┤" << std::endl;
@@ -193,7 +167,6 @@ void PerformanceMetrics::printMetrics() {
     std::cout << "│ MHD Calls/sec:         " << std::setw(10) << throughputMetrics_.mhdComputationsPerSecond 
               << "                │" << std::endl;
     std::cout << "└─────────────────────────────────────────────────────────┘\n" << std::endl;
-    
     std::cout << "╔════════════════════════════════════════════════════════════╗" << std::endl;
     std::cout << "║  KEY BOTTLENECK: Optimization module (" 
               << std::setprecision(1) << (moduleTiming_.optimizationMs / moduleTiming_.totalMs * 100) 
@@ -201,14 +174,12 @@ void PerformanceMetrics::printMetrics() {
     std::cout << "║  → Primary target for HPC parallelization               ║" << std::endl;
     std::cout << "╚════════════════════════════════════════════════════════════╝\n" << std::endl;
 }
-
 void PerformanceMetrics::saveMetricsToJSON(const std::string& filepath) {
     std::ofstream file(filepath);
     if (!file.is_open()) {
         std::cerr << "Error: Could not open " << filepath << " for writing" << std::endl;
         return;
     }
-    
     file << "{\n";
     file << "  \"module_timing\": {\n";
     file << "    \"data_loading_ms\": " << moduleTiming_.dataLoadingMs << ",\n";
@@ -248,21 +219,16 @@ void PerformanceMetrics::saveMetricsToJSON(const std::string& filepath) {
     file << "    \"mhd_computations_per_second\": " << throughputMetrics_.mhdComputationsPerSecond << "\n";
     file << "  }\n";
     file << "}\n";
-    
     file.close();
     std::cout << "Performance metrics saved to: " << filepath << std::endl;
 }
-
 void PerformanceMetrics::saveMetricsToCSV(const std::string& filepath) {
     std::ofstream file(filepath);
     if (!file.is_open()) {
         std::cerr << "Error: Could not open " << filepath << " for writing" << std::endl;
         return;
     }
-    
     file << "metric_category,metric_name,value,unit\n";
-    
-    // Timing metrics
     file << "timing,data_loading," << moduleTiming_.dataLoadingMs << ",ms\n";
     file << "timing,preprocessing," << moduleTiming_.preprocessingMs << ",ms\n";
     file << "timing,segmentation," << moduleTiming_.segmentationMs << ",ms\n";
@@ -270,41 +236,31 @@ void PerformanceMetrics::saveMetricsToCSV(const std::string& filepath) {
     file << "timing,optimization," << moduleTiming_.optimizationMs << ",ms\n";
     file << "timing,logging," << moduleTiming_.loggingMs << ",ms\n";
     file << "timing,total," << moduleTiming_.totalMs << ",ms\n";
-    
-    // Algorithm metrics
     file << "algorithm,total_iterations," << algorithmMetrics_.totalIterations << ",count\n";
     file << "algorithm,initial_mhd_score," << algorithmMetrics_.initialMHDScore << ",score\n";
     file << "algorithm,final_mhd_score," << algorithmMetrics_.finalMHDScore << ",score\n";
     file << "algorithm,improvement," << algorithmMetrics_.improvement << ",score\n";
     file << "algorithm,convergence_rate," << algorithmMetrics_.convergenceRate << ",ratio\n";
     file << "algorithm,avg_iteration_time," << algorithmMetrics_.avgIterationTimeMs << ",ms\n";
-    
-    // Throughput metrics
     file << "throughput,iterations_per_second," << throughputMetrics_.iterationsPerSecond << ",iter/s\n";
     file << "throughput,points_per_second," << throughputMetrics_.pointsPerSecond << ",points/s\n";
     file << "throughput,edges_per_second," << throughputMetrics_.edgesPerSecond << ",edges/s\n";
     file << "throughput,mhd_computations_per_second," << throughputMetrics_.mhdComputationsPerSecond << ",calls/s\n";
-    
     file.close();
     std::cout << "Performance metrics CSV saved to: " << filepath << std::endl;
 }
-
 PerformanceMetrics::ModuleTiming PerformanceMetrics::getModuleTiming() {
     return moduleTiming_;
 }
-
 PerformanceMetrics::AlgorithmMetrics PerformanceMetrics::getAlgorithmMetrics() {
     return algorithmMetrics_;
 }
-
 PerformanceMetrics::MemoryMetrics PerformanceMetrics::getMemoryMetrics() {
     return memoryMetrics_;
 }
-
 PerformanceMetrics::ThroughputMetrics PerformanceMetrics::getThroughputMetrics() {
     return throughputMetrics_;
 }
-
 void PerformanceMetrics::reset() {
     timers_.clear();
     moduleTiming_ = ModuleTiming();
@@ -313,7 +269,6 @@ void PerformanceMetrics::reset() {
     throughputMetrics_ = ThroughputMetrics();
     iterationTimes_.clear();
 }
-
 double PerformanceMetrics::getElapsedMs(const Timer& timer) {
     auto duration = std::chrono::duration_cast<std::chrono::microseconds>(timer.end - timer.start);
     return duration.count() / 1000.0;

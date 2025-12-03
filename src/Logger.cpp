@@ -3,77 +3,54 @@
 #include <iostream>
 #include <iomanip>
 #include <filesystem>
-
 std::string Logger::outputDir_ = "output/";
-
 void Logger::setOutputDirectory(const std::string& outputDir) {
     outputDir_ = outputDir;
-    
-    // Create directory if it doesn't exist
     std::filesystem::create_directories(outputDir);
     std::filesystem::create_directories(outputDir + "/images");
     std::filesystem::create_directories(outputDir + "/data");
     std::filesystem::create_directories(outputDir + "/logs");
-    
     std::cout << "Output directory set to: " << outputDir << std::endl;
 }
-
 void Logger::logHistogramData(const std::vector<double>& originalHist,
                               const std::vector<double>& equalizedHist) {
     std::string filepath = outputDir_ + "/data/histogram_data.csv";
     std::ofstream file(filepath);
-    
     if (!file.is_open()) {
         std::cerr << "Error: Could not open " << filepath << " for writing" << std::endl;
         return;
     }
-    
-    // Write CSV header
     file << "gray_value,original_count,equalized_count\n";
-    
-    // Write data
     for (size_t i = 0; i < 256; ++i) {
         file << i << ","
              << std::fixed << std::setprecision(6) << originalHist[i] << ","
              << equalizedHist[i] << "\n";
     }
-    
     file.close();
     std::cout << "Histogram data saved to: " << filepath << std::endl;
 }
-
 void Logger::logConvergenceData(const std::vector<double>& iterationScores) {
     std::string filepath = outputDir_ + "/data/convergence_log.csv";
     std::ofstream file(filepath);
-    
     if (!file.is_open()) {
         std::cerr << "Error: Could not open " << filepath << " for writing" << std::endl;
         return;
     }
-    
-    // Write CSV header
     file << "iteration,mhd_score\n";
-    
-    // Write data
     for (size_t i = 0; i < iterationScores.size(); ++i) {
         file << i << ","
              << std::fixed << std::setprecision(6) << iterationScores[i] << "\n";
     }
-    
     file.close();
     std::cout << "Convergence data saved to: " << filepath << std::endl;
 }
-
 void Logger::logFinalPose(const Pose6D& pose, double finalScore) {
     std::string filepath = outputDir_ + "/data/final_pose.json";
     std::ofstream file(filepath);
-    
     if (!file.is_open()) {
         std::cerr << "Error: Could not open " << filepath << " for writing" << std::endl;
         return;
     }
-    
-    // Write JSON
     file << "{\n";
     file << "  \"pose\": {\n";
     file << "    \"alpha\": " << std::fixed << std::setprecision(6) << pose.alpha << ",\n";
@@ -89,21 +66,17 @@ void Logger::logFinalPose(const Pose6D& pose, double finalScore) {
     file << "    \"translation\": \"pixels_or_mm\"\n";
     file << "  }\n";
     file << "}\n";
-    
     file.close();
     std::cout << "Final pose saved to: " << filepath << std::endl;
 }
-
 void Logger::saveImage(const cv::Mat& image, const std::string& filename) {
     std::string filepath = outputDir_ + "/images/" + filename;
-    
     if (cv::imwrite(filepath, image)) {
         std::cout << "Image saved to: " << filepath << std::endl;
     } else {
         std::cerr << "Error: Could not save image to " << filepath << std::endl;
     }
 }
-
 void Logger::logSummary(int totalIterations, 
                        double initialScore,
                        double finalScore,

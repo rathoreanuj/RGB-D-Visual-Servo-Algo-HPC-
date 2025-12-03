@@ -1,17 +1,5 @@
-# Python dependencies for RGB-D Pose Estimation with OpenMP
-# Install with: pip install -r requirements.txt
-
-# Core scientific computing
 numpy>=2.0.0,<2.3.0
-
-# Computer vision and image processing
 opencv-python>=4.8.0
-
-# HDF5 file format support (Berkeley dataset)
 h5py>=3.0.0
-
-# Data visualization and plotting
 matplotlib>=3.5.0
-
-# Data analysis and CSV handling
 pandas>=2.0.0
